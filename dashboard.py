@@ -75,6 +75,53 @@ except FileNotFoundError as e:
 app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 app.title = "Dashboard Pádel Analytics"
 
+# CSS personalizado para el dropdown
+app.index_string = '''
+<!DOCTYPE html>
+<html>
+    <head>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+        <style>
+            .Select-value-label, .Select-placeholder {
+                color: white !important;
+            }
+            .Select-control {
+                background-color: #2a2a4a !important;
+            }
+            .Select-menu-outer {
+                background-color: #2a2a4a !important;
+            }
+            .VirtualizedSelectOption {
+                color: white !important;
+            }
+            #selector-jugador .Select-value-label {
+                color: white !important;
+            }
+            #selector-jugador input {
+                color: white !important;
+            }
+            .Select-input > input {
+                color: white !important;
+            }
+            .Select--single > .Select-control .Select-value {
+                color: white !important;
+            }
+        </style>
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>
+'''
+
 # Colores personalizados
 COLORS = {
     'background': '#1a1a2e',
@@ -134,7 +181,8 @@ else:
                             options=[{'label': j, 'value': j} for j in jugadores_lista],
                             value=jugadores_lista[0] if jugadores_lista else None,
                             placeholder="Selecciona un jugador...",
-                            style={'backgroundColor': '#2a2a4a', 'color': 'black'}
+                            style={'backgroundColor': '#2a2a4a', 'color': '#ffffff'},
+                            className='dropdown-white-text'
                         )
                     ])
                 ], style={'backgroundColor': COLORS['card']})
@@ -472,7 +520,7 @@ if datos_cargados:
         frecuencia = datos_jugador['FRECUENCIA_DEPORTE_first'].iloc[0] if 'FRECUENCIA_DEPORTE_first' in datos_jugador.columns else "N/A"
         
         perfil = html.Div([
-            html.H5(jugador_seleccionado, style={'color': COLORS['accent']}),
+            html.H5(jugador_seleccionado, style={'color': '#ffffff'}),
             html.Hr(),
             html.P(f"📅 Edad: {edad} años"),
             html.P(f"📏 Estatura: {estatura} cm"),
